@@ -136,7 +136,7 @@ end
 -- get absolute path
 function module.abs(path)
 
-    if  sys.iswindows() then return fs.fullpath(path) end
+    if  sys.host() == "Windows" then return fs.abs(path) end
 
     if module.isabs(path) then return module.clean(path) end
 
@@ -148,11 +148,14 @@ function module.split(path)
 end
 
 function module.fromslash(path)
-    return path:gsub("/","\\")
+    local path = path:gsub("/","\\")
+
+    return path
 end
 
 function module.toslash(path)
-    return path:gsub("\\","/")
+    local path = path:gsub("\\","/")
+    return path
 end
 
 -- return shortest path name equivalent to path
@@ -208,9 +211,12 @@ function module.clean(path)
 end
 
 function module.join(...)
+
     local path = module.__join(...)
 
-    return module.clean(path)
+    local path = module.clean(path)
+
+    return path
 end
 
 function module.__join(...)
@@ -224,4 +230,3 @@ function module.__join(...)
 end
 
 return module
-
